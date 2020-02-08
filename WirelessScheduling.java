@@ -28,7 +28,7 @@ public class projectOne {
   public static double timeslots = 10000.0;
   public static double[] symmetricUserDistances = {D/3,D/3,D/3,D/3};
   public static double[] asymmetricUserDistances = {D/5,D/4,D/3,D/2};
-  public static double[] userDistances;
+  public static double[] userDistances = symmetricUserDistances;
   public static int[] timeSlotsScheduledPerUser = new int[users];
   public static double[] throughputPerUser = new double[users];
 
@@ -88,18 +88,16 @@ public class projectOne {
     }
   }
   public static void main(String[] args) {
-    if (args.length > 1 && args[1].equals("asym")) {
-      userDistances = asymmetricUserDistances;
-    } else {
-      userDistances = symmetricUserDistances;
-    }
-
-    if (args.length > 0 && args[0].equals("2")) {
-      problemTwo();
-    } else if (args.length > 0 && args[0].equals("3")) {
+    for (String arg : args) {
+      if (arg.equals("-a")){
+        userDistances = asymmetricUserDistances;
+      } else if (arg.equals("2")){
+        problemTwo();
+      } else if (arg.equals("3")) {
       //problemThree();
     } else {
-      problemOne();
+        problemOne();
+      }
     }
 
     System.out.println("\nTimeslots per User");
