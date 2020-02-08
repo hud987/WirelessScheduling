@@ -3,8 +3,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-//Round Robin
-
 //10^4 time slots
 //4 users
 
@@ -17,7 +15,7 @@ import java.util.Random;
 
 //symmetric ( 1:(D/3,0), 2:(0,D/3), 3:(-D/3,0), 4:(0,-D/3) )
 //asymmetric ( 1:(D/5,0), 2:(0,D/4), 3:(-D/3,0), 4:(0,-D/2) )
-public class projectOne {
+public class wirelessScheduling {
   public static int users = 4;
   public static int W = 1;
   public static int PowerT = 10;
@@ -87,6 +85,42 @@ public class projectOne {
       timeSlotsScheduledPerUser[currUser]++;
     }
   }
+
+  public static void problemThree() {
+    double minTimeslotsPerUser = .25;
+    int maxTimeslotsPerUser = (int) ((1 - (users-1)*minTimeslotsPerUser) * timeslots);
+    System.out.println(maxTimeslotsPerUser);
+    Random rng = new Random();
+    for (double i=0;i<timeslots;i++) {
+      double maxRn = 0;
+      int chosenUser = 0;
+
+      for (int j=0;j<users;j++) {
+        //Snij
+        double stdNormal = rng.nextGaussian();
+        double normalValue = stddev*stdNormal + mean;
+        double Sn = Math.exp(normalValue);
+
+        //Path gain
+        double Gn = Sn / Math.pow(userDistances[j], alpha);
+
+        //SINR
+        double Yn = (Gn * PowerT);
+
+        //Packet Transfer rate
+        double Rn = W * (Math.log(1 + Yn)/Math.log(2));
+
+        if (Rn > maxRn && timeSlotsScheduledPerUser[j]<maxTimeslotsPerUser) {
+          maxRn = Rn;
+          chosenUser = j;
+        }
+      }
+      int currUser = chosenUser;
+      throughputPerUser[currUser]+=maxRn;
+      timeSlotsScheduledPerUser[currUser]++;
+    }
+  }
+
   public static void main(String[] args) {
     for (String arg : args) {
       if (arg.equals("-a")){
@@ -94,7 +128,7 @@ public class projectOne {
       } else if (arg.equals("2")){
         problemTwo();
       } else if (arg.equals("3")) {
-        //problemThree();
+        problemThree();
     } else {
         problemOne();
       }
