@@ -136,13 +136,13 @@ public class wirelessScheduling {
 
     System.out.println("\nTimeslots per User");
     for (int i=0;i<users;i++) {
-      System.out.println("User " + (i+1) + ": " + timeSlotsScheduledPerUser[i]/timeslots + " fraction of timeslots");
+      System.out.println("User " + (i+1) + ": " + timeSlotsScheduledPerUser[i]/timeslots + " of timeslots");
     }
 
     System.out.println("\nThroughput per User");
     double totalThroughput = 0;
     for (int i=0;i<users;i++) {
-      System.out.println("User " + (i+1) + ": " + throughputPerUser[i]/timeslots + " Throughput per timeslot");
+      System.out.println("User " + (i+1) + ": " + throughputPerUser[i]/timeslots + " per timeslot");
       totalThroughput+=throughputPerUser[i];
     }
 
